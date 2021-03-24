@@ -22,7 +22,7 @@ class Dense(Layer):
         
     def forward(self, input):
         self.input = input
-        forward = np.dot(self.weights,input)+self.bias
+        forward = np.dot(self.weights,input) + self.bias
         return self.activation.forward(forward)
     
     def get_details(self):
