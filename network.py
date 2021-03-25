@@ -31,7 +31,7 @@ class Network:
             error = 0
             for x,y in zip(X,Y):
                 output = self._forward(x)
-                error = mse(y,output)
+                error += mse(y,output)
                 output = mse_prime(y,output)
                 
                 for layer in reversed(self.layers):
@@ -39,6 +39,7 @@ class Network:
                     
             pred = self.predict(X)
             metric = Metrics(Y, pred)
+            error = error/len(x)
             full_error.append(error)
                     
             if verbose:

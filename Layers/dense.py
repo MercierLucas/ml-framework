@@ -9,16 +9,18 @@ class Dense(Layer):
         self.weights = np.random.randn(output_size,input_size)
         self.bias = np.random.randn(output_size,1)
         self.name = "Dense"
+        
+        self.available_activations = {
+            'tanh' : Tanh(),
+            'sigmoid' : Sigmoid()
+        }
+
         self._setup_activation(activation)
 
     def _setup_activation(self, activation):
-        available_activations = ["tanh","sigmoid"]
-        assert activation in available_activations, f"Activation not found, please select one of {available_activations}"
+        assert activation in self.available_activations, f"Activation not found, please select one of {self.available_activations}"
 
-        if activation == "tanh":
-            self.activation = Tanh()
-        elif activation == "sigmoid":
-            self.activation = Sigmoid()
+        self.activation = self.available_activations[activation]
         
     def forward(self, input):
         self.input = input
