@@ -1,5 +1,7 @@
 import numpy as np
 
+from ml_framework.Utils.preprocessing import from_categorical
+
 def eq(arr, e):
     return np.array([i == e for i in arr])
 
@@ -7,10 +9,18 @@ class Metrics:
 
     def __init__(self, y, y_pred):
         assert y.shape[0] == y_pred.shape[0], f"y:{y.shape[0]} and y_pred:{y_pred.shape[0]} must have same number of elements"
-        self.uniques = np.unique(y)
+        
         y = y.squeeze()
         y_pred = y_pred.squeeze()
+
+        if len(y.shape) > 1:
+            if y.shape[1] != 1:
+                y = from_categorical(y)
+
+            if y_pred.shape[1] != 1:
+                y_pred = from_categorical(y_pred)
         
+        self.uniques = np.unique(y)
         self.conf = self.confusion_matrix(y, y_pred)
         self.y_true = y
         self.y_pred = y_pred
@@ -20,6 +30,7 @@ class Metrics:
             "precision" : self.precision
         }
         
+
     def available_metrics(self):
         return [m for m in self.metrics]
     

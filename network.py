@@ -53,13 +53,16 @@ class Network:
         print(f"Training ended with error {error:.{digits}f}")
         return full_error
     
-    def evaluate(self, X, Y):
+    def evaluate(self, X, Y, digits = 5):
         pred = self.predict(X)
         metrics = Metrics(Y, pred)
-        metrics.report()
+        metrics.report(digits = digits)
     
     def predict(self, X, threshold = .9):
         res = []
         for x in X:
-            res.append(1 if self._forward(x) > threshold else 0)
+            pred = self._forward(x)
+            #if len(pred) > 1:
+            #    pred = pred.argmax()
+            res.append(pred)
         return np.array(res).squeeze()
