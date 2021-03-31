@@ -15,3 +15,8 @@ This "framework" is for learning purpose only.
         Dense(3, 1, activation="tanh"),
     ])
 ```
+
+
+## To implement
+
+[ ] Dataloader and dataset utils
